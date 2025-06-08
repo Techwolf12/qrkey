@@ -1,0 +1,79 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+
+archives:
+  - formats: [tar.gz]
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+
+release:
+  footer: >-
+
+    ---
+
+    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
+
+# Creates Linux packages.
+nfpms:
+  - file_name_template: "{{ .ConventionalFileName }}"
+    maintainer: Christiaan de Die le Clercq <contact@techwolf12.nl>
+    formats:
+      - deb
+      - apk
+      - rpm
+
+# Creates Darwin universal binaries.
+universal_binaries:
+  - replace: true
+
+dockers:
+  - image_templates: ["ghcr.io/techwolf12/qrkey:{{ .Version }}"]
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - --label=org.opencontainers.image.title=qrkey
+      - --label=org.opencontainers.image.description={{ .ProjectName }}
+      - --label=org.opencontainers.image.url=https://github.com/techwolf12/qrkey
+      - --label=org.opencontainers.image.source=https://github.com/techwolf12/qrkey
+      - --label=org.opencontainers.image.version={{ .Version }}
+      - --label=org.opencontainers.image.revision={{ .FullCommit }}
+      - --label=org.opencontainers.image.licenses=MIT
+
+# Sets up homebrew-taps.
+brews:
+  - repository:
+      owner: techwolf12
+      name: homebrew-tap
+      token: "{{ .Env.GITHUB_TOKEN }}"
+    directory: Formula
+    homepage: https://github.com/techwolf12/qrkey
+    description: qrkey is a command-line tool for generating and recovering QR codes from files for offline private key backup.
+    license: MIT

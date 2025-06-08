@@ -2,3 +2,5 @@
 *.txt
 qrkey
 .idea/
+# Added by goreleaser init:
+dist/
