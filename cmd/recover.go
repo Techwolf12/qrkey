@@ -88,7 +88,7 @@ func readLinesFromFile(filename string) ([]string, error) {
 }
 
 func readLinesFromStdin() ([]string, error) {
-	fmt.Println("Paste each QR code content (one per line, metadata first):")
+	fmt.Println("Paste each QR code content (one per line, metadata first) and press ctrl-D when finished:")
 	return readLines(os.Stdin)
 }
 

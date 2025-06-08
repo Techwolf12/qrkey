@@ -11,7 +11,13 @@ macOS users can install `qrkey` using Homebrew Tap:
 
 ```bash
 brew tap techwolf12/tap
-brew install qrkey
+brew install techwolf12/tap/qrkey
+```
+
+For Docker users, you can use the Docker image:
+
+```bash
+docker run -v "$(pwd)":/mnt ghcr.io/techwolf12/qrkey:latest generate --in /mnt/testfile.txt --out /mnt/test.pdf
 ```
 
 For other systems, see the [releases page](https://github.com/Techwolf12/qrkey/releases/).
