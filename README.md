@@ -1,9 +1,15 @@
 QRKey
 ====
 
+![QR code example](https://github.com/techwolf12/qrkey/raw/main/docs/testpdf.png "QR example")
+
 `qrkey` is a command-line tool for generating and recovering QR codes from files for offline private key backup.
 It allows you to convert files into QR codes that can be printed or stored, and later recovered from those QR codes.
-It supports large files by splitting them into multiple QR codes, and includes metadata for easy recovery.
+It supports large files by splitting them into multiple QR codes, and includes metadata for easy recovery and validation.
+
+* Convert a file into a PDF with QR codes
+* Recover from a PDF with QR codes with a barcode scanner
+* Recover from a PDF with QR codes from a file with lines
 
 ## Installation
 
@@ -40,3 +46,7 @@ Or to recover interactively:
 ```bash
 qrkey recover
 ```
+
+## License
+
+See [`LICENSE`](./LICENSE).
